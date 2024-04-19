@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import PropTypes from "prop-types";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 
@@ -7,7 +8,7 @@ export const ImageGallery = ({ images, onImageClick }) => {
       {images &&
         images.map((image) => (
           <ImageGalleryItem
-            key={image.id}
+            key={`${image.id}` + `${nanoid()}`}
             imageUrl={image.webformatURL}
             alt={image.tags}
             id={image.id}

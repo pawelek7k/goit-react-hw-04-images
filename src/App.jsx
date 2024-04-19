@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { Button } from "./components/Button/Button";
 import { ImageGallery } from "./components/ImageGallery/ImageGallery";
-import { Modal } from "./components/Modal/Modal";
+import Modal from "./components/Modal/Modal";
 import { Searchbar } from "./components/Searchbar/Searchbar";
 
 function App() {
@@ -12,8 +12,7 @@ function App() {
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [selectedImageId, setSelectedImageId] = useState(null);
-
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
   const loadMore = () => {
     setIsLoading(true);
     setError(null);
@@ -70,24 +69,23 @@ function App() {
       });
   };
 
-  const handleImageClick = (id) => {
-    setSelectedImageId(id);
+  const handleImageClick = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImageUrl("");
   };
 
   return (
     <>
       <Searchbar onSubmit={getSearches} isLoading={isLoading} error={error} />
-      <ImageGallery images={images} onImageClick={handleImageClick} />
-
+      <ImageGallery images={images} onClick={handleImageClick} />
       <Button onClick={loadMore} disabled={isLoading}>
         {isLoading ? "Loading..." : "Load More"}
       </Button>
-      {selectedImageId !== null && (
-        <Modal
-          images={images}
-          onClose={() => setSelectedImageId(null)}
-          startIndex={images.findIndex((image) => image.id === selectedImageId)}
-        />
+      {selectedImageUrl && (
+        <Modal imageUrl={selectedImageUrl} onClose={handleCloseModal} />
       )}
     </>
   );
