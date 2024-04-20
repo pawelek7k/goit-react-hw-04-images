@@ -1,3 +1,4 @@
+import Notiflix from "notiflix";
 import PropTypes from "prop-types";
 import SearchbarStyles from "./SearchbarStyles";
 
@@ -5,6 +6,10 @@ export const Searchbar = ({ onSubmit, isLoading, error }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const searchText = event.target.elements.searchInput.value;
+    if (searchText.trim() === "") {
+      Notiflix.Notify.info("Enter phrase");
+      return;
+    }
     await onSubmit(searchText);
   };
 
