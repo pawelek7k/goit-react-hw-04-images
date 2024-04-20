@@ -8,14 +8,15 @@ import { Searchbar } from "./components/Searchbar/Searchbar";
 function App() {
   const apiKey = "42475479-1764a7314469942521760576b";
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
+
   const loadMore = () => {
     setIsLoading(true);
-    setError(null);
+    setError(false);
     const prevPage = page + 1;
 
     fetch(
@@ -43,7 +44,7 @@ function App() {
 
   const getSearches = async (searchText) => {
     setIsLoading(true);
-    setError(null);
+    setError(false);
     setSearchText(searchText);
 
     fetch(

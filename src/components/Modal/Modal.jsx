@@ -1,22 +1,40 @@
 import PropTypes from "prop-types";
+import { useEffect } from "react";
+import ModalWindow from "./ModalWindow";
+import Overlay from "./Overlay";
 
-// import { useEffect } from "react";
+const Modal = ({ isOpen, imageUrl, onClose }) => {
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.code === "Escape") onClose();
+    };
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+    }
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
 
-export const Modal = ({ imageUrl, onClose }) => {
-  const handleCloseModal = () => {
-    onClose();
+  if (!isOpen) return null;
+
+  const handleClose = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
   };
 
   return (
-    <div className="overlay" onClick={handleCloseModal}>
-      <div className="modal">
+    <Overlay onClick={handleClose}>
+      <ModalWindow>
         <img src={imageUrl} alt="" />
-      </div>
-    </div>
+      </ModalWindow>
+    </Overlay>
   );
 };
 
 Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
   imageUrl: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
 };
