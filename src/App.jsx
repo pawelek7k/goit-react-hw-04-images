@@ -38,7 +38,7 @@ function App() {
         setError(error.message);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoading(true);
       });
   };
 
@@ -66,7 +66,7 @@ function App() {
         setError(error.message);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoading(true);
       });
   };
 
@@ -82,9 +82,7 @@ function App() {
     <>
       <Searchbar onSubmit={getSearches} isLoading={isLoading} error={error} />
       <ImageGallery images={images} onClick={handleImageClick} />
-      <Button onClick={loadMore} disabled={isLoading}>
-        {isLoading ? "Loading..." : "Load More"}
-      </Button>
+      <Button onClick={loadMore} isLoading={isLoading} />
       {selectedImageUrl && (
         <Modal imageUrl={selectedImageUrl} onClose={handleCloseModal} />
       )}

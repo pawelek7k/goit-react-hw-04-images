@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-export const Button = ({ onClick, disabled }) => {
+export const Button = ({ onClick, isLoading }) => {
   return (
-    <button onClick={onClick} disabled={disabled}>
+    <button onClick={onClick} style={{ display: isLoading ? "block" : "none" }}>
       Load more
     </button>
   );
@@ -10,5 +10,5 @@ export const Button = ({ onClick, disabled }) => {
 
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
