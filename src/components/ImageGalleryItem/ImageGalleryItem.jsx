@@ -1,14 +1,8 @@
 import PropTypes from "prop-types";
 
 const ImageGalleryItem = ({ imageUrl, alt, id, onClick }) => {
-  const handleClick = () => {
-    if (onClick) {
-      onClick(id);
-    }
-  };
-
   return (
-    <li className="gallery-item" onClick={handleClick}>
+    <li className="gallery-item" onClick={() => onClick(id)}>
       <img src={imageUrl} alt={alt} />
     </li>
   );

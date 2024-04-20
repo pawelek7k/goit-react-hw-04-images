@@ -6,17 +6,13 @@ import Overlay from "./Overlay";
 const Modal = ({ isOpen, imageUrl, onClose }) => {
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.code === "Escape") onClose();
+      if (event.code === "Escape" && isOpen) onClose();
     };
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-    }
+    document.addEventListener("keydown", handleEscape);
     return () => {
       document.removeEventListener("keydown", handleEscape);
     };
   }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
 
   const handleClose = (event) => {
     if (event.target === event.currentTarget) {
@@ -25,11 +21,15 @@ const Modal = ({ isOpen, imageUrl, onClose }) => {
   };
 
   return (
-    <Overlay onClick={handleClose}>
-      <ModalWindow>
-        <img src={imageUrl} alt="" />
-      </ModalWindow>
-    </Overlay>
+    <>
+      {isOpen && (
+        <Overlay onClick={handleClose}>
+          <ModalWindow>
+            <img src={imageUrl} alt="" />
+          </ModalWindow>
+        </Overlay>
+      )}
+    </>
   );
 };
 

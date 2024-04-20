@@ -88,6 +88,7 @@ function App() {
   const handleImageClick = (imageUrl) => {
     setSelectedImageUrl(imageUrl);
     setIsModalOpen(true);
+    console.log("ok");
   };
 
   const handleCloseModal = () => {
@@ -98,12 +99,17 @@ function App() {
   return (
     <>
       <Searchbar onSubmit={getSearches} />
-      <ImageGallery images={images} onClick={handleImageClick} />
+      <ImageGallery images={images} handleImageClick={handleImageClick} />
+
       <Button onClick={loadMore} loadMore={loadMoreState} />
       <Loader isLoading={isLoading} />
 
       {isModalOpen && selectedImageUrl && (
-        <Modal imageUrl={selectedImageUrl} onClose={handleCloseModal} />
+        <Modal
+          imageUrl={selectedImageUrl.toString()}
+          onClose={handleCloseModal}
+          isOpen={isModalOpen}
+        />
       )}
     </>
   );

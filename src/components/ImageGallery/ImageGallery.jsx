@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import GalleryStyles from "./GalleryStyles";
 
-export const ImageGallery = ({ images, onImageClick }) => {
+export const ImageGallery = ({ images, handleImageClick }) => {
   return (
     <GalleryStyles>
       <ul className="gallery">
@@ -14,7 +14,7 @@ export const ImageGallery = ({ images, onImageClick }) => {
               imageUrl={image.webformatURL}
               alt={image.tags}
               id={image.id}
-              onClick={onImageClick}
+              onClick={handleImageClick}
             />
           ))}
       </ul>
@@ -31,5 +31,5 @@ ImageGallery.propTypes = {
       largeImageURL: PropTypes.string.isRequired,
     })
   ).isRequired,
-  onImageClick: PropTypes.func,
+  handleImageClick: PropTypes.func,
 };
