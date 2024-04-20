@@ -7,6 +7,7 @@ const SearchbarStyles = styled.header`
   padding: 1rem 0rem;
   position: fixed;
   width: 100%;
+  top: 0;
   background-color: #ffffff66;
   backdrop-filter: blur(5px);
   .form {

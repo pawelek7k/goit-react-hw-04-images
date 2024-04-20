@@ -10,7 +10,6 @@ const ImageGalleryItem = ({ imageUrl, alt, id, onClick }) => {
   return (
     <li className="gallery-item" onClick={handleClick}>
       <img src={imageUrl} alt={alt} />
-      <p>------------------</p>
     </li>
   );
 };
