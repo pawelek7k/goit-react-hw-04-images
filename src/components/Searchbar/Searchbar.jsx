@@ -2,7 +2,7 @@ import Notiflix from "notiflix";
 import PropTypes from "prop-types";
 import SearchbarStyles from "./SearchbarStyles";
 
-export const Searchbar = ({ onSubmit, isLoading, error }) => {
+export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const searchText = event.target.elements.searchInput.value;
@@ -29,14 +29,10 @@ export const Searchbar = ({ onSubmit, isLoading, error }) => {
           <span className="button-label">Search</span>
         </button>
       </form>
-      {isLoading && <div>Loading...</div>}
-      {error && <div>Error: {error}</div>}
     </SearchbarStyles>
   );
 };
 
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  error: PropTypes.bool,
 };

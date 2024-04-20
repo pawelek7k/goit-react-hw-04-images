@@ -1,22 +1,27 @@
+import Notiflix from "notiflix";
 import { useState } from "react";
 import "./App.css";
 import { Button } from "./components/Button/Button";
 import { ImageGallery } from "./components/ImageGallery/ImageGallery";
+import { Loader } from "./components/Loader/Loader";
 import Modal from "./components/Modal/Modal";
 import { Searchbar } from "./components/Searchbar/Searchbar";
 
 function App() {
   const apiKey = "42475479-1764a7314469942521760576b";
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadMoreState, setLoadMore] = useState(false);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loadMore = () => {
-    setIsLoading(true);
+    setLoadMore(true);
     setError(false);
+    setIsLoading(false);
     const prevPage = page + 1;
 
     fetch(
@@ -36,15 +41,21 @@ function App() {
       })
       .catch((error) => {
         setError(error.message);
+        Notiflix.Notify.Failure(
+          "Network error. Please check your internet connection."
+        );
       })
       .finally(() => {
-        setIsLoading(true);
+        setLoadMore(true);
+        setIsLoading(false);
       });
   };
 
   const getSearches = async (searchText) => {
-    setIsLoading(true);
+    setPage(1);
+    setLoadMore(true);
     setError(false);
+    setIsLoading(true);
     setSearchText(searchText);
 
     fetch(
@@ -64,26 +75,34 @@ function App() {
       })
       .catch((error) => {
         setError(error.message);
+        Notiflix.Notify.Failure(
+          "Network error. Please check your internet connection."
+        );
       })
       .finally(() => {
-        setIsLoading(true);
+        setLoadMore(true);
+        setIsLoading(false);
       });
   };
 
   const handleImageClick = (imageUrl) => {
     setSelectedImageUrl(imageUrl);
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setSelectedImageUrl("");
+    setIsModalOpen(false);
   };
 
   return (
     <>
-      <Searchbar onSubmit={getSearches} isLoading={isLoading} error={error} />
+      <Searchbar onSubmit={getSearches} />
       <ImageGallery images={images} onClick={handleImageClick} />
-      <Button onClick={loadMore} isLoading={isLoading} />
-      {selectedImageUrl && (
+      <Button onClick={loadMore} loadMore={loadMoreState} />
+      <Loader isLoading={isLoading} />
+
+      {isModalOpen && selectedImageUrl && (
         <Modal imageUrl={selectedImageUrl} onClose={handleCloseModal} />
       )}
     </>
