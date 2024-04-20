@@ -85,10 +85,26 @@ function App() {
       });
   };
 
-  const handleImageClick = (imageUrl) => {
-    setSelectedImageUrl(imageUrl);
-    setIsModalOpen(true);
-    console.log("ok");
+  const handleImageClick = (imageId) => {
+    fetch(`https://pixabay.com/api/?key=${apiKey}&id=${imageId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.hits && data.hits.length > 0) {
+          const imageUrl = data.hits[0].webformatURL;
+          setSelectedImageUrl(imageUrl);
+          setIsModalOpen(true);
+        } else {
+          console.error("No image found with the provided ID.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching image details:", error);
+      });
   };
 
   const handleCloseModal = () => {
@@ -106,7 +122,7 @@ function App() {
 
       {isModalOpen && selectedImageUrl && (
         <Modal
-          imageUrl={selectedImageUrl.toString()}
+          imageUrl={selectedImageUrl && selectedImageUrl.toString()}
           onClose={handleCloseModal}
           isOpen={isModalOpen}
         />
