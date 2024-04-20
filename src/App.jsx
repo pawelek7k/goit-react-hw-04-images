@@ -1,4 +1,3 @@
-import Notiflix from "notiflix";
 import { useState } from "react";
 import "./App.css";
 import { Button } from "./components/Button/Button";
@@ -9,7 +8,7 @@ import { Searchbar } from "./components/Searchbar/Searchbar";
 
 function App() {
   const apiKey = "42475479-1764a7314469942521760576b";
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [loadMoreState, setLoadMore] = useState(false);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
@@ -21,7 +20,8 @@ function App() {
   const loadMore = () => {
     setLoadMore(true);
     setError(false);
-    setIsLoading(false);
+    setIsLoading(true);
+
     const prevPage = page + 1;
 
     fetch(
@@ -36,17 +36,17 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        setImages((prevImages) => [...prevImages, ...data.hits]);
-        setPage((prevPage) => prevPage + 1);
+        if (data.hits && data.hits.length === 0) {
+          setLoadMore(false);
+        } else {
+          setImages((prevImages) => [...prevImages, ...data.hits]);
+          setPage(prevPage);
+        }
       })
       .catch((error) => {
         setError(error.message);
-        Notiflix.Notify.Failure(
-          "Network error. Please check your internet connection."
-        );
       })
       .finally(() => {
-        setLoadMore(true);
         setIsLoading(false);
       });
   };
@@ -70,17 +70,17 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        setImages(data.hits);
-        setPage(1);
+        if (data.hits && data.hits.length === 0) {
+          setLoadMore(false);
+        } else {
+          setImages(data.hits);
+          setPage(1);
+        }
       })
       .catch((error) => {
         setError(error.message);
-        Notiflix.Notify.Failure(
-          "Network error. Please check your internet connection."
-        );
       })
       .finally(() => {
-        setLoadMore(true);
         setIsLoading(false);
       });
   };

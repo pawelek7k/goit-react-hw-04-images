@@ -20,8 +20,9 @@ const SearchbarStyles = styled.header`
       cursor: pointer;
       display: flex;
       align-items: center;
+      background-color: transparent;
+      color: black;
       justify-content: center;
-      color: gray;
       border-bottom: 1px solid #000000bd;
     }
     .input,

@@ -1,10 +1,15 @@
 import PropTypes from "prop-types";
+import ButtonStyles from "./ButtonStyles";
+ButtonStyles;
 
 export const Button = ({ onClick, loadMore }) => {
   return (
-    <button onClick={onClick} style={{ display: loadMore ? "block" : "none" }}>
+    <ButtonStyles
+      onClick={onClick}
+      style={{ display: loadMore ? "block" : "none" }}
+    >
       Load more
-    </button>
+    </ButtonStyles>
   );
 };
 
