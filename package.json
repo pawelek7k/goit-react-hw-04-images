@@ -1,11 +1,11 @@
 {
-  "name": "image-finder",
+  "name": "goit-react-hw-03-image-finder",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/image-finder/",
+    "build": "vite build --base=/goit-react-hw-03-image-finder/",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
